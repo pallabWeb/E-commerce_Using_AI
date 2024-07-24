@@ -1,4 +1,3 @@
-// src/Signup.jsx
 import React, { useState } from 'react';
 import './css/Signup.css';
 
