@@ -15,14 +15,25 @@ const App = () => {
                 <nav className="bg-gray-800 text-white">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between h-16">
+                            {/* Logo */}
                             <div className="flex-shrink-0">
                                 <Link to="/" className="text-white text-lg font-bold">ShopEasy</Link>
                             </div>
-                            <div className="hidden md:flex md:items-center md:space-x-4">
-                                <Link to="/" className="nav-link hover:bg-gray-700 px-3 py-2 rounded-md">Home</Link>
-                                <Link to="/signup" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded-full">Signup</Link>
-                                <Link to="/login" className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded-full">Login</Link>
+
+                            {/* Navigation links - hidden on mobile */}
+                            <div className="hidden md:flex md:items-center">
+                                <Link to="/" className="nav-link hover:bg-gray-700 px-3 py-2 rounded-md mx-2">Home</Link>
+                                <Link to="/products" className="nav-link hover:bg-gray-700 px-3 py-2 rounded-md mx-2">Products</Link>
+                                <Link to="/about" className="nav-link hover:bg-gray-700 px-3 py-2 rounded-md mx-2">About</Link>
                             </div>
+
+                            {/* Login and Signup buttons */}
+                            <div className="hidden md:flex md:items-center md:space-x-4">
+                                <Link to="/login" className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded-full">Login</Link>
+                                <Link to="/signup" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded-full">Signup</Link>
+                            </div>
+
+                            {/* Mobile menu button */}
                             <div className="md:hidden">
                                 <button
                                     onClick={() => setIsOpen(!isOpen)}
@@ -35,12 +46,15 @@ const App = () => {
                         </div>
                     </div>
 
+                    {/* Mobile menu, show/hide based on menu state */}
                     {isOpen && (
                         <div className="md:hidden">
                             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                                 <Link to="/" className="nav-link hover:bg-gray-700 block px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>Home</Link>
-                                <Link to="/signup" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded block mb-1" onClick={() => setIsOpen(false)}>Signup</Link>
-                                <Link to="/login" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded block" onClick={() => setIsOpen(false)}>Login</Link>
+                                <Link to="/products" className="nav-link hover:bg-gray-700 block px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>Products</Link>
+                                <Link to="/about" className="nav-link hover:bg-gray-700 block px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>About</Link>
+                                <Link to="/login" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2" onClick={() => setIsOpen(false)}>Login</Link>
+                                <Link to="/signup" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onClick={() => setIsOpen(false)}>Signup</Link>
                             </div>
                         </div>
                     )}
@@ -50,6 +64,7 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
+                    {/* Add routes for Products and About pages */}
                 </Routes>
             </div>
         </Router>
