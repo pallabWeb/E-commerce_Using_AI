@@ -1,24 +1,24 @@
+// src/Login.jsx
 import React, { useState } from 'react';
-import './css/Signup.css';
+import './css/Login.css';
 
-const Signup = () => {
-    const [username, setUsername] = useState('');
+const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSignup = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/users/signup', {
+            const response = await fetch('http://localhost:5000/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, email, password }),
+                body: JSON.stringify({ email, password }),
             });
             const data = await response.json();
             if (response.ok) {
-                alert('Signup successful!');
+                alert('Login successful!');
             } else {
                 alert(data.message);
             }
@@ -28,25 +28,17 @@ const Signup = () => {
     };
 
     return (
-        <div className="signup-page">
-            <div className="signup-container">
-            <h1>Signup</h1>
-            <form onSubmit={handleSignup} className="signup-form">
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    className="signup-input"
-                />
+        <div className="login-page">
+        <div className="login-container">
+            <h1>Login</h1>
+            <form onSubmit={handleLogin} className="login-form">
                 <input
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="signup-input"
+                    className="login-input"
                 />
                 <input
                     type="password"
@@ -54,13 +46,13 @@ const Signup = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="signup-input"
+                    className="login-input"
                 />
-                <button type="submit" className="signup-button">Signup</button>
+                <button type="submit" className="login-button">Login</button>
             </form>
         </div>
         </div>
     );
 };
 
-export default Signup;
+export default Login;
