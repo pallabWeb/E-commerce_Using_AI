@@ -1,10 +1,11 @@
-// src/Login.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './css/Login.css';
 
-const Login = () => {
+const Login = ({ setIsAuthenticated }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -18,7 +19,9 @@ const Login = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                alert('Login successful!');
+                localStorage.setItem('authToken', data.token); // Store the token
+                setIsAuthenticated(true);
+                navigate('/'); // Redirect to home page after successful login
             } else {
                 alert(data.message);
             }
@@ -50,6 +53,7 @@ const Login = () => {
                 />
                 <button type="submit" className="login-button">Login</button>
             </form>
+            <p className="no-account text-center mt-4 text-sm text-gray-500 dark:text-gray-400"> New to our site? <a href="/signup" className="text-blue-500 hover:underline">Signup</a></p>
         </div>
         </div>
     );

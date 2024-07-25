@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import Signup from './Signup';
@@ -8,6 +8,19 @@ import './css/App.css';
 
 const App = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            setIsAuthenticated(true);
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('authToken');
+        setIsAuthenticated(false);
+    };
 
     return (
         <Router>
@@ -27,10 +40,24 @@ const App = () => {
                                 <Link to="/about" className="nav-link hover:bg-gray-700 px-3 py-2 rounded-md mx-2">About</Link>
                             </div>
 
-                            {/* Login and Signup buttons */}
+                            {/* Login and logout button */}
                             <div className="hidden md:flex md:items-center md:space-x-4">
-                                <Link to="/login" className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded-full">Login</Link>
-                                <Link to="/signup" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded-full">Signup</Link>
+                                {!isAuthenticated && (
+                                    <>
+                                        <Link to="/login" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</Link>
+                                    </>
+                                )}
+                                {isAuthenticated && (
+                                    <button
+                                        onClick={() => {
+                                            handleLogout();
+                                            setIsOpen(false);
+                                        }}
+                                        className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                                    >
+                                        Logout
+                                    </button>
+                                )}
                             </div>
 
                             {/* Mobile menu button */}
@@ -53,8 +80,22 @@ const App = () => {
                                 <Link to="/" className="nav-link hover:bg-gray-700 block px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>Home</Link>
                                 <Link to="/products" className="nav-link hover:bg-gray-700 block px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>Products</Link>
                                 <Link to="/about" className="nav-link hover:bg-gray-700 block px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>About</Link>
-                                <Link to="/login" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2" onClick={() => setIsOpen(false)}>Login</Link>
-                                <Link to="/signup" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onClick={() => setIsOpen(false)}>Signup</Link>
+                                {!isAuthenticated && (
+                                    <>
+                                        <Link to="/login" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2" onClick={() => setIsOpen(false)}>Login</Link>
+                                    </>
+                                )}
+                                {isAuthenticated && (
+                                    <button
+                                        onClick={() => {
+                                            handleLogout();
+                                            setIsOpen(false);
+                                        }}
+                                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                                    >
+                                        Logout
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}
@@ -63,7 +104,7 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/signup" element={<Signup />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
                     {/* Add routes for Products and About pages */}
                 </Routes>
             </div>
