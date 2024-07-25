@@ -1,4 +1,3 @@
-// server.js
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -14,15 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.MONGODB_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(uri)
     .then(() => console.log('MongoDB database connection established successfully'))
     .catch(err => console.log(err));
-
-const connection = mongoose.connection;
-
-connection.once('open', () => {
-    console.log('MongoDB database connection established successfully');
-});
 
 app.use('/api/users', userRoutes);
 
